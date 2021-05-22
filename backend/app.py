@@ -8,31 +8,24 @@ api = Api(app)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-stocks = {}
+todos = [
+    {
+        "id": 1,
+        "title": "Do 100 Javascript Projects",
+    },
+    {
+        "id": 2,
+        "title": "Learn NodeJS",
+    }
+]
 
 
 class Home(Resource):
     def get(self):
-        return stocks
-
-
-class Stocks(Resource):
-    def get(self):
-        return stocks
-
-
-class Stock(Resource):
-    def get(self, stock):
-        return stocks[stock]
-
-    def put(self, stock):
-        stock_data = json.loads(request.data)
-        stocks[stock] = stock_data
+        return todos
 
 
 api.add_resource(Home, '/')
-api.add_resource(Stocks, '/stocks')
-api.add_resource(Stock, '/stock/<string:stock>')
 
 
 if __name__ == '__main__':
