@@ -1,19 +1,11 @@
-import React, {useEffect} from 'react'
-import axios from 'axios';
-function Input() {
+import React, { useState} from 'react'
 
-    const getTodos = async () => {
-        try {
-            const res = await axios.get('http://127.0.0.1:5000/')
-            console.log(res)
-        } catch (error){
-            console.log(error)
-        }
-    }
-
-    useEffect(() => {
-        getTodos()
-    }, [])
+type InputProps = {
+    todo: string,
+    handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    onSubmit: () => void
+  }
+function Input({todo, handleInputChange, onSubmit }: InputProps) {
     return (
         <form action="/" method="get">
         <input
@@ -22,10 +14,10 @@ function Input() {
             placeholder="Add todo..."
             name="s" 
             className="input"
+            value={todo}
+            onChange={handleInputChange}
         />
-        <button onClick={() => {
-            console.log('click!')
-        }} className="btn success"  type="button">Add Item</button>
+        <button onClick={onSubmit} className="btn success"  type="button">Add Item</button>
     </form>
     )
 }
