@@ -20,12 +20,20 @@ todos = [
 ]
 
 
-class Home(Resource):
+class Todo(Resource):
     def get(self):
         return todos
 
+    def post(self):
+        # Add to todos
+        return todos
 
-api.add_resource(Home, '/')
+    def delete(self):
+        # delete todo
+        return todos
+
+
+api.add_resource(Todo, '/')
 
 
 if __name__ == '__main__':
