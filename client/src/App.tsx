@@ -26,7 +26,7 @@ function App() {
 
     const onSubmit = async () =>  {
       // Make post call to database
-      const res = await axios.post('http://127.0.0.1:5000/todos/4', {"task": todo})
+      const res = await axios.post('http://127.0.0.1:5000/todos', {"task": todo})
       console.log(res)
     }
   return (
