@@ -8,18 +8,15 @@ type TodoListProps = {
 function TodoList({todos}: TodoListProps) {
     const todoListItems = todos.map(item => {
         return (
-        <li>
+        <li className="list-item">
             {item.task}
         </li>
         )
     })
     return (
-        <div>
-          <ul>
+          <ul className="list-container">
            {todoListItems}
-         </ul>
-        </div>
-       
+         </ul>   
     )
 }
 

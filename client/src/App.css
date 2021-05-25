@@ -38,5 +38,13 @@ li {
   list-style-type: none;
 }
 
+.list-item {
+  color: blueviolet;
+}
+
+.list-container{
+  background-color: lightseagreen;
+}
+
 
 
