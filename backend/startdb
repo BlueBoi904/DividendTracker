@@ -1,0 +1,11 @@
+#!/bin/bash
+
+main() {
+    docker run -d \
+    --name todos \
+    -e POSTGRES_PASSWORD=todospass \
+    -p 5432:5432 \
+    postgres
+}
+
+main

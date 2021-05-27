@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Input} from './components/Input'
 import {TodoList} from './components/TodoList'
-import {Modal} from './components/Modal'
 import axios from 'axios';
 import "tailwindcss/tailwind.css"
 
@@ -56,7 +55,6 @@ function App() {
       <Input onSubmit={onSubmit} todo={todo} handleInputChange={handleInputChange} />
       <TodoList todos={todos}/>
      </div>
-     <Modal/>
       </div>
   );
 }
