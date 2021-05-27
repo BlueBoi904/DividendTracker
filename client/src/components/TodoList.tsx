@@ -3,6 +3,7 @@ import {TodoType} from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faEdit, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 import axios from 'axios';
+import { CheckCircleIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline'
 
 
 type TodoListProps = {
@@ -31,24 +32,24 @@ function TodoList({todos}: TodoListProps) {
 
     const todoListItems = todos.map(item => {
         return (
-            <>
-                <div className="col-span-10">
+            <div className="grid grid-cols-11 border-2 bg-gray-100  rounded-md border-pink-300 my-1">
+                <p className="col-span-10 text-lg py-1 pl-1 font-normal ">
                     {item.task}
-                </div>
+                </p>
                     
-                <div className="flex justify-between items-center">
-                <FontAwesomeIcon  id="green-circle" className="icon" icon={faCheckCircle} />
-                <FontAwesomeIcon id="blue-circle" className="icon" icon={faEdit} />
-                <FontAwesomeIcon id="red-circle" className="icon" icon={faTimesCircle} />
+                <div className="flex justify-between items-center p-1">
+                <CheckCircleIcon className="h-5 w-5 text-green-500"/>
+                <PencilAltIcon className="h-5 w-5 text-blue-500"/>
+                <TrashIcon className="h-5 w-5 text-red-500"/>
                 </div>
-            </>
+            </div>
         
         )
     })
 
 
     return (
-          <div className="grid grid-cols-11">
+          <div className="">
               {todoListItems}
           </div>
            

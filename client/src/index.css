@@ -9,7 +9,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgba(250, 219, 222, 1);
+  --tw-bg-opacity: 1;
+  background-color: rgba(147, 197, 253, var(--tw-bg-opacity));
 }
 
 code {

@@ -45,13 +45,13 @@ function App() {
     }
   return (
     <div className="container mx-auto">
-      <div className="text-center py-3 bg-red-400" >
+      <div className="text-center py-4" >
         <header>
           <h1 className=" font-medium text-2xl">To Do list</h1>
         </header>
       </div>
       
-     <div className="px-28">
+     <div className="px-40">
       <Input onSubmit={onSubmit} todo={todo} handleInputChange={handleInputChange} />
       <TodoList todos={todos}/>
      </div>

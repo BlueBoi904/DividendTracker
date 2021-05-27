@@ -16,17 +16,17 @@ function Input({todo, handleInputChange, onSubmit }: InputProps) {
         }
     }, [todo])
     return (
-        <form className=" bg-yellow-300 grid grid-cols-11" action="/" method="get">
+        <form className="grid grid-cols-11 pb-4" action="/" method="get">
         <input
             type="text"
             id="header-search"
             placeholder="Add todo..."
             name="s" 
-            className="bg-red-500 p-2 text-opacity-60 col-span-10"
+            className="p-2 text-opacity-60 col-span-10 rounded border  bg-gray-100 border-pink-300"
             value={todo}
             onChange={handleInputChange}
         />
-        <button disabled={disabled} onClick={onSubmit} className="p-2 text-center bg-green-100"  type="button">Add Item</button>
+        <button disabled={disabled} onClick={onSubmit} className="p-2 text-center bg-pink-300 rounded border border-pink-300"  type="button">Add Item</button>
     </form>
     )
 }
