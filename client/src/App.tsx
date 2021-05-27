@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
-import './App.css';
 import {Input} from './components/Input'
 import {TodoList} from './components/TodoList'
 import axios from 'axios';
+import "tailwindcss/tailwind.css"
 
 export type TodoType = {
   task: string,
+  id: string,
 }
 
 function App() {
@@ -36,14 +36,27 @@ function App() {
 
     const onSubmit = async () =>  {
       // Make post call to database
-      const res = await axios.post('http://127.0.0.1:5000/todos', {"task": todo})
+      try {
+        const res = await axios.post('http://127.0.0.1:5000/todos', {"task": todo})
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
     }
   return (
-    <div className="App">
-     <h1>To Do list</h1>
-     <Input onSubmit={onSubmit} todo={todo} handleInputChange={handleInputChange} />
-     <TodoList todos={todos}/>
-    </div>
+    <div className="container mx-auto">
+      <div className="text-center py-3 bg-red-400" >
+        <header>
+          <h1 className=" font-medium text-2xl">To Do list</h1>
+        </header>
+      </div>
+      
+     <div className="px-28">
+      <Input onSubmit={onSubmit} todo={todo} handleInputChange={handleInputChange} />
+      <TodoList todos={todos}/>
+     </div>
+     
+      </div>
   );
 }
 
