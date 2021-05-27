@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {Input} from './components/Input'
 import {TodoList} from './components/TodoList'
+import {Modal} from './components/Modal'
 import axios from 'axios';
 import "tailwindcss/tailwind.css"
 
 export type TodoType = {
-  task: string,
   id: string,
+  task: string,
+  completed: boolean,
 }
 
 function App() {
@@ -35,7 +37,6 @@ function App() {
     }, [])
 
     const onSubmit = async () =>  {
-      // Make post call to database
       try {
         const res = await axios.post('http://127.0.0.1:5000/todos', {"task": todo})
         console.log(res)
@@ -55,7 +56,7 @@ function App() {
       <Input onSubmit={onSubmit} todo={todo} handleInputChange={handleInputChange} />
       <TodoList todos={todos}/>
      </div>
-     
+     <Modal/>
       </div>
   );
 }
