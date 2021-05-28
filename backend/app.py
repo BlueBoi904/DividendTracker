@@ -63,7 +63,8 @@ class Database:
             """
                 CREATE TABLE IF NOT EXISTS todos (
                 id SERIAL PRIMARY KEY,
-                task VARCHAR(100) NOT NULL
+                task VARCHAR(100) NOT NULL,
+                completed BOOLEAN NOT NULL
             )
             """,)
         try:
@@ -95,7 +96,16 @@ class Models:
         try:
             print(data)
             cursor.execute(
-                "INSERT INTO todos VALUES (DEFAULT,%s) RETURNING *", (data['task'],))
+                "INSERT INTO todos VALUES (DEFAULT,%s, %s) RETURNING *", (data['task'], data['completed'],))
+            result = cursor.fetchone()
+            return result
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+    def updateTodo(self, cursor, data):
+        try:
+            cursor.execute("UPDATE todos SET task = %s, completed = %s WHERE id=%s RETURNING *",
+                           (data['task'], data['completed'], data['id'],))
             result = cursor.fetchone()
             return result
         except (Exception, psycopg2.DatabaseError) as error:
@@ -114,6 +124,8 @@ def abort_if_todo_doesnt_exist(todo_id):
 task_post_args = reqparse.RequestParser()
 task_post_args.add_argument(
     "task", type=str, help="Task is required", required=True)
+task_post_args.add_argument(
+    "completed", type=bool, help="Completed is required", required=True)
 
 
 class TodoList(Resource):
@@ -122,16 +134,16 @@ class TodoList(Resource):
         todo_arr = []
         result = newTest.query(models.getAllTodos)
         for item in result:
-            todo = {"id": item[0], "task": item[1]}
+            todo = {"id": item[0], "task": item[1], "completed": item[2]}
             todo_arr.append(todo)
         return todo_arr
 
     def post(self):
         # Add a new task to the todos table
         args = task_post_args.parse_args()
-        task = {"task": args["task"]}
-        result = newTest.query(models.addTodos, task)
-        todo = {"id": result[0], "task": result[1]}
+        data = {"task": args["task"], "completed": args["completed"]}
+        result = newTest.query(models.addTodos, data)
+        todo = {"id": result[0], "task": result[1], "completed": result[2]}
         return todo, 201
 
 
@@ -143,10 +155,11 @@ class Todo(Resource):
     def put(self, todo_id):
         # Update a todo
         args = task_post_args.parse_args()
-        abort_if_todo_doesnt_exist(todo_id)
-        task = {"task": args["task"]}
-        todos[todo_id] = task
-        return task, 201
+        data = {"id": todo_id,
+                "task": args["task"], "completed": args["completed"]}
+        result = newTest.query(models.updateTodo, data)
+        todo = {"id": result[0], "task": result[1], "completed": result[2]}
+        return todo, 201
 
     def delete(self, todo_id):
         # Delete a todo
