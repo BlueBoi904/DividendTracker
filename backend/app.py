@@ -50,9 +50,9 @@ class Database:
         #         conn.close()
         #         print('Database connection closed.')
 
-    def query(self, action):
+    def query(self, action, data=None):
         cursor = self.connection.cursor()
-        result = action(cursor)
+        result = action(cursor, data)
         cursor.close()
         self.connection.commit()
         return result
@@ -81,22 +81,29 @@ class Database:
             print(error)
 
 
-def queryFunction(cursor):
-    try:
-        cursor.execute(
-            """INSERT INTO todos (task) VALUES ('Create database') returning *""")
-        result = cursor.fetchOne()
-        print(result)
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+class Models:
+    def getAllTodos(self, cursor, data):
+        try:
+            cursor.execute(
+                """SELECT * FROM todos""")
+            result = cursor.fetchall()
+            return result
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
 
-    result = cursor.fetchone()
-    print(result)
-    return None
+    def addTodos(self, cursor, data):
+        try:
+            print(data)
+            cursor.execute(
+                "INSERT INTO todos VALUES (DEFAULT,%s) RETURNING *", (data['task'],))
+            result = cursor.fetchone()
+            return result
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
 
 
 newTest = Database()
-newTest.query(queryFunction)
+models = Models()
 
 
 def abort_if_todo_doesnt_exist(todo_id):
@@ -109,34 +116,32 @@ task_post_args.add_argument(
     "task", type=str, help="Task is required", required=True)
 
 
-def getAllTodos(cursor):
-    try:
-        cursor.execute(
-            """SELECT * FROM todos""")
-        result = cursor.fetchall()
-        return result
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-
-
 class TodoList(Resource):
     def get(self):
-        result = newTest.query(getAllTodos)
-        print(result)
-        return result
+        # Get all todos
+        todo_arr = []
+        result = newTest.query(models.getAllTodos)
+        for item in result:
+            todo = {"id": item[0], "task": item[1]}
+            todo_arr.append(todo)
+        return todo_arr
 
     def post(self):
+        # Add a new task to the todos table
         args = task_post_args.parse_args()
-        todo_id = int(max(todos.keys())) + 1
-        todos[todo_id] = {"task": args["task"]}
-        return todos[todo_id], 201
+        task = {"task": args["task"]}
+        result = newTest.query(models.addTodos, task)
+        todo = {"id": result[0], "task": result[1]}
+        return todo, 201
 
 
 class Todo(Resource):
     def get(self, todo_id):
+        # Get a single todo
         return todos[todo_id]
 
     def put(self, todo_id):
+        # Update a todo
         args = task_post_args.parse_args()
         abort_if_todo_doesnt_exist(todo_id)
         task = {"task": args["task"]}
@@ -144,6 +149,7 @@ class Todo(Resource):
         return task, 201
 
     def delete(self, todo_id):
+        # Delete a todo
         abort_if_todo_doesnt_exist(todo_id)
         del todos[todo_id]
         return '', 204
