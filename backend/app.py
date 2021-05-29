@@ -111,6 +111,22 @@ class Models:
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
 
+    def getSingleTodo(self, cursor, data):
+        try:
+            cursor.execute("SELECT * FROM todos WHERE id=%s", (data["id"],))
+            result = cursor.fetchone()
+            return result
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+    def deleteTodo(self, cursor, data):
+        try:
+            cursor.execute("DELETE FROM todos WHERE id=%s", (data["id"],))
+            result = cursor.fetchone()
+            return None
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
 
 newTest = Database()
 models = Models()
@@ -150,7 +166,10 @@ class TodoList(Resource):
 class Todo(Resource):
     def get(self, todo_id):
         # Get a single todo
-        return todos[todo_id]
+        data = {"id": todo_id}
+        result = newTest.query(models.getSingleTodo, data)
+        todo = {"id": result[0], "task": result[1], "completed": result[2]}
+        return todo, 200
 
     def put(self, todo_id):
         # Update a todo
@@ -163,9 +182,9 @@ class Todo(Resource):
 
     def delete(self, todo_id):
         # Delete a todo
-        abort_if_todo_doesnt_exist(todo_id)
-        del todos[todo_id]
-        return '', 204
+        data = {"id": todo_id}
+        result = newTest.query(models.deleteTodo, data)
+        return result, 204
 
 
 api.add_resource(TodoList, '/todos')
