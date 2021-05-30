@@ -5,7 +5,7 @@ import axios from 'axios';
 import "tailwindcss/tailwind.css"
 
 export type TodoType = {
-  id: string,
+  id: number,
   task: string,
   completed: boolean,
 }
