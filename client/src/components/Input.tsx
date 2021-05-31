@@ -22,11 +22,11 @@ function Input({todo, handleInputChange, onSubmit }: InputProps) {
             id="header-search"
             placeholder="Add todo..."
             name="s" 
-            className="p-2 text-opacity-60 col-span-10 rounded border  bg-gray-100 border-pink-300"
+            className="p-2 text-opacity-60 col-span-10 rounded-md border-2 placeholder-pink-400 bg-gray-100 border-gray-500"
             value={todo}
             onChange={handleInputChange}
         />
-        <button disabled={disabled} onClick={onSubmit} className="p-2 text-center bg-pink-300 rounded border border-pink-300"  type="button">Add Item</button>
+        <button disabled={disabled} onClick={onSubmit} className="p-2 text-pink-400 text-center bg-gray-100 rounded-md border-2 border-gray-500"  type="button">Add Item</button>
     </form>
     )
 }

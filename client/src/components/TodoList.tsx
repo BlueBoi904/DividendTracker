@@ -41,12 +41,12 @@ function TodoList({todos}: TodoListProps) {
 
     const todoListItems = todos.map(item => {
         return (
-            <div className="grid grid-cols-11 border-2 bg-gray-100  rounded-md border-pink-300 my-2">
+            <div className="grid grid-cols-11 border-2 bg-gray-100  rounded-md border-gray-500 my-2">
                 <p className="text-pink-400 col-span-10 text-lg py-1 pl-2 font-normal ">
                     {item.task}
                 </p>
                     
-                <div className="flex justify-between items-center p-1">
+                <div className="flex justify-between items-center p-1">     
                 <CheckCircleIcon onClick={() => {
                     completeTodo(item)
                 }} className={`cursor-pointer h-5 w-5 ${item.completed ? 'text-green-500' : 'text-red-500'}`} />
