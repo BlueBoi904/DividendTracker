@@ -15,7 +15,7 @@ function TodoList({todos}: TodoListProps) {
 
     const completeTodo = async (todo: TodoType) => {
         try {
-            todo.completed = true
+            todo.completed = !todo.completed
             const res = await axios.put(todoUrl + todo.id, todo)
         } catch (error) {
             console.log(error)
@@ -49,7 +49,7 @@ function TodoList({todos}: TodoListProps) {
                 <div className="flex justify-between items-center p-1">
                 <CheckCircleIcon onClick={() => {
                     completeTodo(item)
-                }} className=" cursor-pointer h-5 w-5 text-green-500"/>
+                }} className={`cursor-pointer h-5 w-5 ${item.completed ? 'text-green-500' : 'text-red-500'}`} />
                 <PencilAltIcon  onClick={() => {
                     editTodo(item)
                 }} className=" cursor-pointer h-5 w-5 text-blue-500"/>
