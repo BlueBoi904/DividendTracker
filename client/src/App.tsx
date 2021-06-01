@@ -20,12 +20,7 @@ function App() {
   const getTodos = async () => {
         try {
             const res = await axios.get('http://127.0.0.1:5000/todos')
-            const resArr: TodoType[] = []
-            const obj = res.data
-            for (let key in obj){
-              resArr.push(obj[key])
-            }
-            setTodos(resArr)
+            setTodos(res.data)
         } catch (error){
             console.log(error)
         }
@@ -53,7 +48,7 @@ function App() {
       
      <div className="px-40">
       <Input onSubmit={onSubmit} todo={todo} handleInputChange={handleInputChange} />
-      <TodoList todos={todos}/>
+      <TodoList getTodos={getTodos} todos={todos}/>
      </div>
       </div>
   );
