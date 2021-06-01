@@ -30,10 +30,14 @@ function App() {
         getTodos()
     }, [])
 
+    useEffect(() => {
+      console.log(todos)
+    },[todos])
+
     const onSubmit = async () =>  {
       try {
-        const res = await axios.post('http://127.0.0.1:5000/todos', {"task": todo})
-        console.log(res)
+        const res = await axios.post('http://127.0.0.1:5000/todos', {"task": todo, "completed": false})
+        getTodos()
       } catch (error) {
         console.log(error)
       }
