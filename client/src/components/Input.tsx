@@ -22,7 +22,7 @@ function Input({todo, handleInputChange, onSubmit }: InputProps) {
             id="header-search"
             placeholder="Add todo..."
             name="s" 
-            className="p-2 text-opacity-60 col-span-10 rounded-md border-2 placeholder-pink-400 bg-gray-100 border-gray-500"
+            className="p-2 col-span-10 rounded-md border-2 placeholder-pink-400 text-pink-400 bg-gray-100 border-gray-500"
             value={todo}
             onChange={handleInputChange}
         />

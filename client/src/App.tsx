@@ -11,7 +11,7 @@ export type TodoType = {
 }
 
 function App() {
-  const [todo, setTodo] = useState('')
+  const [todo, setTodo] = useState<string>('')
   const [todos, setTodos] = useState<TodoType[]>([])
   const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value)
@@ -34,6 +34,7 @@ function App() {
       try {
         const res = await axios.post('http://127.0.0.1:5000/todos', {"task": todo, "completed": false})
         getTodos()
+        setTodo('')
       } catch (error) {
         console.log(error)
       }
