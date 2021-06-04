@@ -43,7 +43,7 @@ function App() {
     <div className="container mx-auto">
       <div className="text-center py-6" >
         <header>
-          <h1 className=" text-pink-400 font-medium text-2xl">To Do list</h1>
+          <h1 className=" text-blue-400 font-medium text-2xl">To Do list</h1>
         </header>
       </div>
       
