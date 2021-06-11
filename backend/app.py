@@ -70,9 +70,9 @@ class Database:
         try:
             cur = self.connection.cursor()
             # create table one by one
-            # for command in commands:
-            #     print('here is the command' + command)
-            #     cur.execute(command)
+            for command in commands:
+                print('here is the command' + command)
+                cur.execute(command)
             # close communication with the PostgreSQL database server
             cur.close()
             # commit the changes
